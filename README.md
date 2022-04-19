@@ -1,4 +1,7 @@
 # GeekbleLang
+README 에 넣으니까 이상하네요..
+그냥 rule.txt 보시면 되여
+
 
 1. code.geekble 을 run 과 같은 폴더에 생성
 
