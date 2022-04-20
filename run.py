@@ -34,6 +34,12 @@ def ReturnNumber(txt):
 		elif txt[i] == "탭":
 			val += 72*72
 		try:
+			if txt[i:7] == "긱블질문&답변":
+				val = int(input("INPUT : "))
+				print("")
+		except:
+			pass
+		try:
 			if txt[i:i+2] == "만들":
 				save = 0
 				for ii in range(i + 2, len(txt)):
@@ -74,8 +80,8 @@ def ReadOriginalFile():
 		FileData = []
 
 		for i in range(0, len(RawFileData)):
-			if RawFileData[i] != "\n":
-				FileData.append(RawFileData[i].strip("\n"))
+			# if RawFileData[i] != "\n":
+			FileData.append(RawFileData[i].strip("\n"))
 
 		OriginalFile.close()
 		#print(FileData)
@@ -99,55 +105,75 @@ def CompileIt():
 	for i in range(0,100):
 		VariableList.append(0)
 
-
-	for i in range(0, len(FileData)):
+	i = 0
+	while True:
 		txt = FileData[i]
 		#print(txt)
-		if txt[0] == "#":
-			pass
-		elif txt == "키트화공약":
+		if len(txt) > 0:
+			if txt[0] == "#":
+				pass
+			elif txt == "키트화공약":
+				break
+			elif txt == "어?왜안되지?":
+				time.sleep(0.1)
+				pass
+			else:
+				if len(txt) >= 3:
+					if txt[0:3] == "만들자": # 변수를 만들게요
+						if txt[3] != "아": # 첫 변수구나
+							#print(txt[3:len(txt)])
+							#print(0)
+							VariableList[0] = ReturnNumber(txt[3:len(txt)])
+							pass
+						elif len(txt) == 3:
+							VariableList[0] = 0
+							pass
+
+
+
+						else: # 2 번째 변수 ~ n 까지
+							save = 0
+							for ii in range(3, len(txt)):
+								if txt[ii] == "아":
+									save += 1
+								else:
+									break
+							#print(txt[3+save:len(txt)])
+							#print(save)
+							try:
+								VariableList[save] = ReturnNumber(txt[3+save:len(txt)])
+							except:
+								VariableList[save] = 0
+				try:
+					if txt[0:2] == "일단" and txt[len(txt) - 2:len(txt)] == "해봐":
+						print(chr(  ReturnNumber(txt[2:len(txt) - 2])  ), end="")
+						#print(ReturnNumber(txt[2:len(txt) - 2]))
+
+					elif txt[0:3] == "가시죠":
+						i = ReturnNumber(txt[3:len(txt)]) - 1
+						#print("/"+str(i)+"/")
+						pass
+
+					elif txt[0:4] == "납땜꿀잼" and txt.find("?") != -1:
+						QuestionLoc = txt.find("?")
+						if ReturnNumber(txt[4:QuestionLoc]) == 0: #0이라면, 코드 이동
+							i = ReturnNumber(txt[QuestionLoc + 1:len(txt)]) - 1
+							pass
+
+					elif txt[0:2] == "작품" and txt[len(txt) - 3:len(txt)] == "시사회":
+						print(ReturnNumber(txt[2:len(txt) - 3]),end="")
+					
+					elif txt[0:2] == "작품" and txt[len(txt) - 4:len(txt)] == "시사회_":
+						print(ReturnNumber(txt[2:len(txt) - 4]))
+					
+					#납땜꿀잼[A]?[B]
+
+				except:
+					pass
+		#print(i)
+		if i >= len(FileData) - 1:
 			break
-		else:
-			if len(txt) >= 3:
-				if txt[0:3] == "만들자": # 변수를 만들게요
-					if txt[3] != "아": # 첫 변수구나
-						#print(txt[3:len(txt)])
-						#print(0)
-						VariableList[0] = ReturnNumber(txt[3:len(txt)])
-						pass
-					elif len(txt) == 3:
-						VariableList[0] = 0
-						pass
-
-
-
-					else: # 2 번째 변수 ~ n 까지
-						save = 0
-						for ii in range(3, len(txt)):
-							if txt[ii] == "아":
-								save += 1
-							else:
-								break
-						#print(txt[3+save:len(txt)])
-						#print(save)
-						try:
-							VariableList[save] = ReturnNumber(txt[3+save:len(txt)])
-						except:
-							VariableList[save] = 0
-			try:
-				if txt[0:2] == "작품" and txt[len(txt) - 3:len(txt)] == "시사회":
-					print(ReturnNumber(txt[2:len(txt) - 3]),end="")
-
-			except:
-				pass
-
-			try:
-				if txt[0:2] == "일단" and txt[len(txt) - 2:len(txt)] == "해봐":
-					print(chr(  ReturnNumber(txt[2:len(txt) - 2])  ), end="")
-					#print(ReturnNumber(txt[2:len(txt) - 2]))
-
-			except:
-				pass
+		i+=1
 	#print(VariableList)
 
 
