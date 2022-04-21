@@ -1,5 +1,6 @@
 from pyautogui import confirm as Alert
 import time
+import os
 
 print("GeekbleLang By 노잼#3372 Discord")
 
@@ -7,9 +8,42 @@ OriginalFile = None
 FileData = None
 VariableList = None
 
+FileToAccess = ""
 
 
+def SelectFile():
+	global FileToAccess
+	#print(os.getcwd())
+	
+	RawFiles = os.listdir(os.getcwd())
+	ConvertedFiles = []
+	cnt = 0
+	for i in range(0, len(RawFiles)):
+		try:
+			if RawFiles[i][len(RawFiles[i])-8:len(RawFiles[i])] == ".geekble":
+				ConvertedFiles.append(RawFiles[i])
+				print("Num "+str(cnt)+" : "+RawFiles[i])
+				cnt += 1
+		except:
+			pass
+	
+	while True:
+		SuccessToChangeFile = False
+		try:
+			a = int(input("FILE NUMBER : "))
+			print(a)
+			if 0 <= a and a < len(ConvertedFiles):
+				SuccessToChangeFile = True
+				#print("Success")
+				FileToAccess = RawFiles[a]
+		except:
+			pass
 
+		if SuccessToChangeFile == True:
+			break
+	# for dirName,subDirList, fnames in os.walk('C:\\Windows\\debug'):
+	# 	for fname in fnames:
+	# 		print(os.path.join(dirName,fname))
 
 def ReturnNumber(txt):
 	global VariableList
@@ -74,7 +108,7 @@ def ReadOriginalFile():
 	#\n 을 전부 제거한 값을 가져옴
 	global FileData, OriginalFile
 	try:
-		OriginalFile = open("code.geekble","r",encoding='utf-8')
+		OriginalFile = open(FileToAccess,"r",encoding='utf-8')
 		RawFileData = OriginalFile.readlines()
 
 		FileData = []
@@ -162,6 +196,9 @@ def CompileIt():
 
 					elif txt[0:2] == "작품" and txt[len(txt) - 3:len(txt)] == "시사회":
 						print(ReturnNumber(txt[2:len(txt) - 3]),end="")
+
+					elif txt[0:4] == "항공모함":
+						print(txt[4:len(txt)])
 					
 					elif txt[0:2] == "작품" and txt[len(txt) - 4:len(txt)] == "시사회_":
 						print(ReturnNumber(txt[2:len(txt) - 4]))
@@ -176,6 +213,8 @@ def CompileIt():
 		i+=1
 	#print(VariableList)
 
+
+SelectFile()
 
 #print(ReturnNumber("멀후후후후후후후"))
 print("")
