@@ -184,14 +184,14 @@ def CompileIt():
 						#print(ReturnNumber(txt[2:len(txt) - 2]))
 
 					elif txt[0:3] == "가시죠":
-						i = ReturnNumber(txt[3:len(txt)]) - 1
+						i = ReturnNumber(txt[3:len(txt)]) - 2
 						#print("/"+str(i)+"/")
 						pass
 
 					elif txt[0:4] == "납땜꿀잼" and txt.find("?") != -1:
 						QuestionLoc = txt.find("?")
 						if ReturnNumber(txt[4:QuestionLoc]) == 0: #0이라면, 코드 이동
-							i = ReturnNumber(txt[QuestionLoc + 1:len(txt)]) - 1
+							i = ReturnNumber(txt[QuestionLoc + 1:len(txt)]) - 2
 							pass
 
 					elif txt[0:2] == "작품" and txt[len(txt) - 3:len(txt)] == "시사회":
@@ -202,6 +202,13 @@ def CompileIt():
 					
 					elif txt[0:2] == "작품" and txt[len(txt) - 4:len(txt)] == "시사회_":
 						print(ReturnNumber(txt[2:len(txt) - 4]))
+					
+					elif txt[0:4] == "납땜노잼" and txt.find("?") != -1 and txt.find("!") != -1:
+						QuestionLoc = txt.find("?")
+						CenterLoc = txt.find("!")
+						if ReturnNumber(txt[4:QuestionLoc]) == ReturnNumber(txt[QuestionLoc + 1:CenterLoc]): #0이라면, 코드 이동
+							i = ReturnNumber(txt[CenterLoc + 1:len(txt)]) - 2
+							pass
 					
 					#납땜꿀잼[A]?[B]
 
